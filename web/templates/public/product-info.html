@@ -1,0 +1,77 @@
+{% extends '/layouts/app-layout.html' %}
+
+{% block content %}
+{% endblock %}
+
+{% block main %}
+
+<!-- ======= Breadcrumbs ======= -->
+<section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Detalles del producto</h2>
+            <ol>
+                <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                <li><a href="{{ url_for('products') }}">Productos</a></li>
+                <li>{{ product.title }}</li>
+            </ol>
+        </div>
+
+    </div>
+</section><!-- End Breadcrumbs -->
+
+<!-- ======= Portfolio Details Section ======= -->
+<section id="portfolio-details" class="portfolio-details">
+    <div class="container">
+
+        <div class="row gy-4">
+
+            <div class="col-lg-8">
+                <div class="portfolio-details-slider swiper">
+                    <div class="swiper-wrapper align-items-center">
+
+                        <div class="swiper-slide">
+                            <img src="/static/assets/img/portfolio/portfolio-details-1.jpg" alt="">
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="/static/assets/img/portfolio/portfolio-details-2.jpg" alt="">
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="/static/assets/img/portfolio/portfolio-details-3.jpg" alt="">
+                        </div>
+
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="portfolio-info">
+                    <h3>Información</h3>
+                    <ul>
+                        <li><strong>Categoria</strong>: {{ product.category_id }}</li>
+                        <li><strong>Cantidad disponible</strong>: {{ product.available_quant }}</li>
+                        <li><strong>Fecha de vencimiento</strong>: {{ product.expiring_date }}</li>
+                        <li><strong>Precio</strong> $ {{ product.price }}</li>
+                    </ul>
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-primary">Comprar</a>
+                        <a class=""><i id="favorite" class="far fa-heart"></i></a>
+                    </div>
+                </div>
+                <div class="portfolio-description">
+                    <h2>Descripción</h2>
+                    <p>
+                        {{ product.description }}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section><!-- End Portfolio Details Section -->
+{% endblock %}

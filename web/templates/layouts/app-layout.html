@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include '/includes/head.html' %}
+</head>
+<body>
+
+<!-- ======= Header ======= -->
+    {% include '/includes/header.html' %}
+<!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+    {% block content %}{% endblock %}
+<!-- End Hero -->
+
+<main id="main">
+    {% block main %}{% endblock %}
+</main><!-- End #main -->
+
+
+<!-- ======= Footer ======= -->
+    {% include '/includes/footer.html' %}
+<!-- End Footer -->
+
+</body>
+</html>

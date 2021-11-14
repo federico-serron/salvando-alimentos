@@ -1,0 +1,47 @@
+{% extends 'layouts/admin-layout.html' %}
+
+<!-- ======= Header ======= -->
+{% block header %}
+{% include 'includes/admin/header.html' %}
+{% endblock %}
+
+{% block main %}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Productos</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                <li class="breadcrumb-item">Productos</li>
+                <li class="breadcrumb-item active">Todos los Productos</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row align-items-top">
+{% for product in products %}
+            <div class="col-lg-3">
+
+                <!-- Card with an image on top -->
+                <div class="card">
+                    <img src="{{ product.image_url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <a href="/admin/products/edit/{{ product.slug }}" class="btn btn-primary">Editar</a>
+                        <a href="" class="btn btn-danger">Eliminar</a>
+                    </div>
+                </div><!-- End Card with an image on top -->
+
+
+            </div><!-- End Special title treatmen -->
+{% endfor %}
+        </div>
+
+        </div>
+    </section>
+</main><!-- End #main -->
+
+{% endblock %}

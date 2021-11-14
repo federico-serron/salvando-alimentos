@@ -1,0 +1,78 @@
+{% extends '/layouts/app-layout.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section id="hero" class="d-flex align-items-center">
+    <div class="container text-center position-relative" data-aos="fade-in" data-aos-delay="200">
+        <h1>PRODUCTOS</h1>
+        <h2>Todos los productos disponibles aparecen aqui!</h2>
+    </div>
+</section>
+<!-- End Hero Section -->
+{% endblock %}
+
+
+{% block main %}
+<!-- Categories Menu Section -->
+<div id="clients" class="clients mt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center"
+                 data-aos-delay="100">
+
+                <!-- DROPDOWN MENU-->
+                <div class="categories-menu">
+                    <h3 id="categorias"><a id="name" data-toggle="dropdown"><i class="fas fa-list"></i> Categorias</a>
+                    </h3>
+                    <form id="category_form" action="" method="post">
+                        <ul class="dropdown-menu">
+
+                            <input id="input-category" name="input-category" type="hidden">
+                            {% for category in categories %}
+                                <li><a id="category_link" class="dropdown-item"
+                                       href="javascript:$('#category_form').submit();"
+                                       onmouseover="document.getElementById('input-category').value = 3">{{ category.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </form>
+                </div>
+                <!-- END DROPDOWN MENU-->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Categories Menu Section -->
+
+<!-- List Products Section-->
+<section id="why-us" class="why-us">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 d-flex align-items-stretch">
+                <div class="icon-boxes d-flex flex-column justify-content-center">
+                    <div class="row">
+
+                        <!-- Product Card -->
+                        {% for product in products %}
+                        <div class="col-xl-4 d-flex align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="100">
+                            <div class="icon-box mt-4 mt-xl-0">
+                                <img src="static/assets/img/apple-touch-icon.png">
+                                <h4>{{ product.title }}</h4>
+                                <p>{{ product.description }}</p>
+                                <a href="{{ url_for('product_slug', slug=product.slug) }}" class="btn btn-success">Ver
+                                    detalles</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <!-- End Product Card -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End List Products Section-->
+
+{% endblock %}

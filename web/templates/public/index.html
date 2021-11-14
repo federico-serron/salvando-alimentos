@@ -1,0 +1,272 @@
+{% extends '/layouts/app-layout.html' %}
+
+{% block content %}
+    {% include 'includes/hero.html' %}
+{% endblock %}
+
+{% block main %}
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="static/assets/img/clients/client-1.png" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="static/assets/img/clients/client-2.png" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="static/assets/img/clients/client-3.png" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center" data-aos="zoom-in" data-aos-delay="400">
+                    <img src="static/assets/img/clients/client-4.png" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center" data-aos="zoom-in" data-aos-delay="500">
+                    <img src="static/assets/img/clients/client-5.png" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center" data-aos="zoom-in" data-aos-delay="600">
+                    <img src="static/assets/img/clients/client-6.png" class="img-fluid" alt="">
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Clients Section -->
+
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+
+            <div class="section-title" data-aos="fade-left">
+                <h2>Últimos productos!</h2>
+                <p>Los productos que fueron recientemente agregados, los puedes encontrar aqui! Aprovecha cada oportunidad y colabora con el medio ambiente...y tu bolsillo! :)</p>
+            </div>
+
+            <div class="row" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-12 d-flex justify-content-center">
+                    <ul id="portfolio-flters">
+                        <li data-filter="*" class="filter-active">All</li>
+                        {% for category in categories %}
+                            <li data-filter=".filter-{{category.id}}">{{ category.name }}</li>
+                        {% endfor %}
+                        <li data-filter=".filter-app">Todas</li>
+                        <li data-filter=".filter-card">Card</li>
+                        <li data-filter=".filter-web">Web</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+                {% if not products %}
+                <h1>No hay productos disponibles en este momento.</h1>
+                {% endif %}
+                {% for product in products %}
+                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                        <div class="portfolio-wrap">
+                            <img src="static/assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>{{ product.title }}</h4>
+                                <p>{{ product.category_id }}</p>
+                                <div class="portfolio-links">
+                                    <a href="static/assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery"
+                                       class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
+                                    <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section><!-- End Portfolio Section -->
+
+    <!-- ======= Counts Section ======= -->
+    {% include '/includes/counts.html' %}
+    <!-- End Counts Section -->
+
+    <!-- ======= The Movement Section ======= -->
+    {% include '/public/about.html' %}
+    <!-- End The movement Section -->
+
+    <!-- ======= Cta Section ======= -->
+    <section id="cta" class="cta">
+        <div class="container">
+
+            <div class="text-center" data-aos="zoom-in">
+                <h3>Tienes un comercio?</h3>
+                <p> Si tienes un comercio, o trabajas para uno, ya sea pequeño, mediano o grande, puedes empezar a cambiarlo todo!
+                Todos quienes tengan necesidad de vender sus productos perecederos, antes de que venzan, con el fin de no perder su inversión,
+                e incluso, de ayudar a otras personas, pueden comenzar aquí!</p>
+                <a class="cta-btn" href="#">Llamada a la acción</a>
+            </div>
+
+        </div>
+    </section><!-- End Cta Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services section-bg">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="section-title" data-aos="fade-right">
+                        <h2>Procedimiento</h2>
+                        <p>Incluso más rápido y más simple que sólo ir al Supermercado. Son 4 simples pasos:</p>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-md-6 d-flex align-items-stretch">
+                            <div class="icon-box" data-aos="zoom-in" data-aos-delay="100">
+                                <div class="icon"><i class="fas fa-hamburger"></i></div>
+                                <h4><a href="">Elige el producto</a></h4>
+                                <p>Elige el/los productos que desees, entre una gran variedad, dependiendo que tengas gansa de comer!</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+                            <div class="icon-box" data-aos="zoom-in" data-aos-delay="200">
+                                <div class="icon"><i class="far fa-calendar-alt"></i></div>
+                                <h4><a href="">Cómpralo y elige el horario</a></h4>
+                                <p>Elige el rango horario para levantar el producto o para recibirlo en la puerta de tu casa.</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 d-flex align-items-stretch mt-4">
+                            <div class="icon-box" data-aos="zoom-in" data-aos-delay="300">
+                                <div class="icon"><i class="fas fa-walking"></i></div>
+                                <h4><a href="">Recoge/delivery</a></h4>
+                                <p>Ve hasta el comercio o recíbelo, dependiendo la opcion previamente elegida.</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 d-flex align-items-stretch mt-4">
+                            <div class="icon-box" data-aos="zoom-in" data-aos-delay="400">
+                                <div class="icon"><i class="fab fa-envira"></i></div>
+                                <h4><a href="">Disfrútalo!</a></h4>
+                                <p>Dísfrutalo! con tu familia, amigos e incluso en un momento de tranquilidad, sabiendo que el mundo ahora es un poco mejor!</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials section-bg">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="section-title" data-aos="fade-right">
+                        <h2>Testimonios</h2>
+                        <p>Algunos de los últimos comentarios que se han hecho respecto a los productos que se Salvan, asi como de la plataforma!</p>
+                    </div>
+                </div>
+                <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
+
+                    <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+                        <div class="swiper-wrapper">
+
+                            {% if reviews %}
+                                {% for review in reviews %}
+                                    {% include '/includes/card-comment.html' %}
+                                {% endfor %}
+                            {% else %}
+                            <h2 >No hay comentarios hechos hasta la fecha.</h2>
+                            {% endif %}
+
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Testimonials Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4" data-aos="fade-right">
+                    <div class="section-title">
+                        <h2>Contacto</h2>
+                        <p>Puedes escribirnos por cualquier duda, inconveniente o inquietud.
+                        También valoraremos mucho que nos indiques cualquier problema o falla en la app o en el procedimiento que creas que se debería corregir.
+                        Te estaremos respondiendo en máximo 24 horas!</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
+                    <iframe style="border:0; width: 100%; height: 270px;"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3271.8876854358114!2d-56.21283958491095!3d-34.909267980381465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959f7f83b5cf16bd%3A0xe3a65140cff90597!2sCd%20Vieja%2C%2011000%20Montevideo%2C%20Departamento%20de%20Montevideo%2C%20Uruguay!5e0!3m2!1ses!2sit!4v1633945679909!5m2!1ses!2sit"
+                            frameborder="0" allowfullscreen></iframe>
+                    <div class="info mt-4">
+                        <i class="bi bi-geo-alt"></i>
+                        <h4>Ubicación:</h4>
+                        <p>Montevideo, Uruguay</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 mt-4">
+                            <div class="info">
+                                <i class="bi bi-envelope"></i>
+                                <h4>Email:</h4>
+                                <p>info@example.com</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="info w-100 mt-4">
+                                <i class="fab fa-whatsapp"></i>
+                                <h4>Whatsapp:</h4>
+                                <p>+598 94 902 541</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form action="" method="post" role="form" class="php-email-form mt-4">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <input type="text" name="name" class="form-control" id="name" placeholder="Tu nombre"
+                                       required>
+                            </div>
+                            <div class="col-md-6 form-group mt-3 mt-md-0">
+                                <input type="email" class="form-control" name="email" id="email"
+                                       placeholder="Tu Email" required>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Asunto"
+                                   required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <textarea class="form-control" name="message" rows="5" placeholder="Mensaje"
+                                      required></textarea>
+                        </div>
+                        <div class="my-3">
+                            <div class="loading">Loading</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Tu mensaje ha sido enviado. Te estaremos contactando en menos de 24hs, Gracias!!</div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit">Enviar mensaje</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Contact Section -->
+{% endblock %}
+
