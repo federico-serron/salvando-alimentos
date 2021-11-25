@@ -24,11 +24,12 @@ def obtener_usuario(id_user):
     return usuario
 
 
-def create_user(name, lastname, email, password, role, address):
+def create_user(name, lastname, email, password, role, address, country, profile_photo_url, company_name):
     if not _existe_usuario(email, password):
-        user_model.create_user(name, lastname, email, password, role, address)
+        user_model.create_user(name, lastname, email, password, role, address, country, profile_photo_url, company_name)
         user_info = user_model.obtener_usuarios_por_nombre_clave(email, password)
         _crear_sesion(user_info[0]['id'])
+        return user_info
     else:
         raise Exception("El usuario ya existe.")
 
@@ -57,3 +58,13 @@ def get_id_user_email(email):
 
 def delete_session(id_user):
     user_model.delete_session(id_user)
+
+
+
+def client_count():
+    return user_model.client_count()
+
+
+
+def seller_count():
+    return user_model.seller_count()

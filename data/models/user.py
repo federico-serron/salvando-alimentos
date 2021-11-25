@@ -3,7 +3,7 @@ from data.data_base import BaseDeDatos
 
 def obtener_usuario(id_user):
     obtener_usuario_sql = f"""
-        SELECT id, name, lastname, email, password, role_id, address 
+        SELECT id, name, lastname, email, password, role_id, address, country 
         FROM users 
         WHERE id = {id_user}
     """
@@ -14,7 +14,8 @@ def obtener_usuario(id_user):
              "email": row[3],
              "password": row[4],
              "role_id": row[5],
-             "address": row[6]
+             "address": row[6],
+             "country": row[7]
              } for row in bd.ejecutar_sql(obtener_usuario_sql)]
 
 
@@ -34,9 +35,10 @@ def obtener_usuarios():
 
 def obtener_usuarios_por_nombre_clave(email, password):
     obtener_usuario_sql = f"""
-            SELECT * 
-            FROM users
-            WHERE email='{email}' AND password='{password}'
+            SELECT u.id, u.name, u.lastname, u.email, u.password, u.role_id, u.profile_photo_url, 
+            u.address, u.country, u.company_name, r.name 
+            FROM users u JOIN roles r ON u.role_id = r.id
+            WHERE u.email='{email}' AND u.password='{password}'
         """
     bd = BaseDeDatos()
     return [{"id": row[0],
@@ -46,7 +48,10 @@ def obtener_usuarios_por_nombre_clave(email, password):
              "password": row[4],
              "role_id": row[5],
              "profile_photo_url": row[6],
-             "address": row[7]
+             "address": row[7],
+             "country": row[8],
+             "company_name": row[9],
+             "role": row[10]
              } for row in bd.ejecutar_sql(obtener_usuario_sql)]
 
 
@@ -70,10 +75,11 @@ def obtener_sesion(id_sesion):
             for registro in bd.ejecutar_sql(obtener_sesion_sql)]
 
 
-def create_user(name, lastname, email, password, role, address):
+def create_user(name, lastname, email, password, role, address, country, profile_photo_url, company_name):
     create_user_sql = f"""
-        INSERT INTO users(name, lastname, email, password, role_id, address) 
-        VALUES ('{name}', '{lastname}', '{email}', '{password}', {role}, '{address}') 
+        INSERT INTO users(name, lastname, email, password, role_id, address, country, profile_photo_url, company_name) 
+        VALUES ('{name}', '{lastname}', '{email}', '{password}', {role}, '{address}', '{country}', 
+        '{profile_photo_url}', '{company_name}') 
     """
 
     bd = BaseDeDatos()
@@ -118,6 +124,24 @@ def delete_session(id_user):
     """
     bd = BaseDeDatos()
     bd.ejecutar_sql(delete_session_sql)
+
+
+def client_count():
+    client_count_sql = f"""
+        SELECT count(*) FROM users WHERE role_id=1
+    """
+
+    bd = BaseDeDatos()
+    return [{"client_qty": row[0]} for row in bd.ejecutar_sql(client_count_sql)]
+
+
+def seller_count():
+    seller_count_sql = f"""
+        SELECT count(*) FROM users WHERE role_id=2
+    """
+
+    bd = BaseDeDatos()
+    return [{"seller_qty": row[0]} for row in bd.ejecutar_sql(seller_count_sql)]
 
 # def user_login(user_name, password):
 #     user_login_sql = f"""

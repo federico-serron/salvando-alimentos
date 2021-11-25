@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS users (
     role_id INTEGER DEFAULT 1 NOT NULL,
     profile_photo_url TEXT,
     address TEXT NOT NULL,
+    country TEXT NOT NULL,
+    company_name TEXT,
     FOREIGN KEY(role_id) REFERENCES roles(id)
 )
 '''

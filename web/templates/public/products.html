@@ -29,10 +29,11 @@
 
                             <input id="input-category" name="input-category" type="hidden">
                             {% for category in categories %}
-                                <li><a id="category_link" class="dropdown-item"
-                                       href="javascript:$('#category_form').submit();"
-                                       onmouseover="document.getElementById('input-category').value = 3">{{ category.name }}</a>
-                                </li>
+                            <li><a id="category_link" class="dropdown-item"
+                                   href="javascript:$('#category_form').submit();"
+                                   onmouseover="document.getElementById('input-category').value = 3">{{ category.name
+                                }}</a>
+                            </li>
                             {% endfor %}
                         </ul>
                     </form>
@@ -56,10 +57,15 @@
                         <!-- Product Card -->
                         {% for product in products %}
                         <div class="col-xl-4 d-flex align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="100">
-                            <div class="icon-box mt-4 mt-xl-0">
-                                <img src="static/assets/img/apple-touch-icon.png">
+                            <div class="card icon-box mt-4 mt-xl-0">
+                                <div class="img-container">
+                                    <img class="rounded img-responsive" src="{{ product.image_url }}">
+                                </div>
                                 <h4>{{ product.title }}</h4>
-                                <p>{{ product.description }}</p>
+                                <div style="height:100%; max-height:100px; " class="d-flex align-items-center">
+                                    <p>Salva comida en <strong>{{ product.company_name }}</strong>
+                                        y podrás disfrutar de: {{ product.description }}</p>
+                                </div>
                                 <a href="{{ url_for('product_slug', slug=product.slug) }}" class="btn btn-success">Ver
                                     detalles</a>
                             </div>

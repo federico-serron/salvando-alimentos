@@ -12,7 +12,7 @@
         <h1>Editar productor</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Inicio</a></li>
                 <li class="breadcrumb-item">Productos</li>
                 <li class="breadcrumb-item active">Editar producto</li>
             </ol>
@@ -29,9 +29,11 @@
                         <h5 class="card-title">Detalles</h5>
 
                         <!-- Multi Columns Form -->
-                        <form class="row g-3" enctype="multipart/form-data" method="post" action="">
+                        <form class="row g-3" enctype="multipart/form-data" method="post" id="editProductForm"
+                              action="">
                             <input type="hidden" id="user_id" name="user_id" value="{{ session['id'] }}">
                             <input type="hidden" id="status" name="status" value="1">
+                            <input type="hidden" id="id_product" name="product_id" value="{{ product.id }}">
 
                             <div class="col-md-12">
                                 <label for="title" class="form-label">Título</label>
@@ -49,46 +51,53 @@
                                 <input type="date" class="form-control" id="expiring_date" name="expiring_date"
                                        value="{{ product.expiring_date }}" required>
                             </div>
-                            <div class="col-md-3">
-                                <label for="category_id" class="form-label">Categoría</label>
-                                <select id="category_id" name="category_id" class="form-select" value="{{ product.category_id }}"
-                                        required>
-                                    <option selected>Elegir...</option>
-                                    <option value="1">1</option>
-                                </select>
-                            </div>
+
+
+                            <!--                            <div class="col-md-3">-->
+                            <!--                                <label for="category_id" class="form-label">Categoría</label>-->
+                            <!--                                <select id="category_id" name="category_id" class="form-select" value="{{ product.category_id }}"-->
+                            <!--                                        required>-->
+                            <!--                                    <option selected>Elegir...</option>-->
+                            <!--                                    <option value="1">1</option>-->
+                            <!--                                </select>-->
+                            <!--                            </div>-->
+
+
                             <!-- TinyMCE Editor -->
                             <div class="col-md-12">
-                                <label for="description" class="form-label">Descripción</label>
+                                <label for="description" class="form-label">Salva comida en
+                                    <strong>{{session['company_name']}}</strong> y podrás disfrutar de:</label>
                                 <textarea id="description" name="description" class="form-control"
-                                          required>
-                                    {{ product.description }}
-                                </textarea><!-- End TinyMCE Editor -->
+                                          required maxlength="70">{{ product.description }}</textarea>
                             </div>
                             <div class="col-md-2">
                                 <label for="price" class="form-label">Precio $UYU</label>
                                 <input type="number" class="form-control" id="price" name="price"
-                                       value="{{ product.price }}"required>
+                                       value="{{ product.price }}" required>
                             </div>
                             <div class="col-md-2">
                                 <label for="available_quant" class="form-label">Cantidad disponible</label>
                                 <input type="number" class="form-control" id="available_quant" name="available_quant"
                                        value="{{ product.available_quant }}" required>
                             </div>
-                            <div onload="selectop({{ product.pickup_time }})" class="col-md-4">
-                                <label for="pickup_time" class="form-label">Rango horario de recolección</label>
-                                <select id="pickup_time" name="pickup_time" class="form-select" required>
-                                    <option>Elegir...</option>
-                                    <option id="op1" value="08:00 - 12:00">08:00 - 12:00</option>
-                                    <option id="op2" value="12:00 - 16:00">12:00 - 16:00</option>
-                                    <option id="op3" value="16:00 - 21:00">16:00 - 21:00</option>
-                                </select>
+
+
+                            <!--                            <div onload="selectop({{ product.pickup_time }})" class="col-md-4">-->
+                            <!--                                <label for="pickup_time" class="form-label">Rango horario de recolección</label>-->
+                            <!--                                <select id="pickup_time" name="pickup_time" class="form-select" required>-->
+                            <!--                                    <option>Elegir...</option>-->
+                            <!--                                    <option id="op1" value="08:00 - 12:00">08:00 - 12:00</option>-->
+                            <!--                                    <option id="op2" value="12:00 - 16:00">12:00 - 16:00</option>-->
+                            <!--                                    <option id="op3" value="16:00 - 21:00">16:00 - 21:00</option>-->
+                            <!--                                </select>-->
+                            <!--                            </div>-->
+
+
+                            <div id="alertEdit" style="display:none;" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                             </div>
-                            <div class="col-md-2">
-                                <label for="image_url" class="form-label">Imagen/es</label>
-                                 <input type="text" class="form-control" id="image_url" name="image_url"
-                                       >
-                            </div>
+
                             <div class="col-12">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="gridCheck" required>
@@ -98,7 +107,7 @@
                                 </div>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Crear producto</button>
+                                <button type="submit" class="btn btn-primary">Editar producto</button>
                                 <button type="reset" class="btn btn-secondary">Limpiar campos</button>
                             </div>
                         </form><!-- End Multi Columns Form -->
@@ -146,5 +155,6 @@
             document.getElementById('op3').selected = 3;
         }
 	}
+
 </script>
 {% endblock %}

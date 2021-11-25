@@ -31,17 +31,17 @@
                 <div class="portfolio-details-slider swiper">
                     <div class="swiper-wrapper align-items-center">
 
-                        <div class="swiper-slide">
-                            <img src="/static/assets/img/portfolio/portfolio-details-1.jpg" alt="">
+                        <div style="height:100%; max-height:450px; " class="d-flex align-items-center">
+                            <img style="object-fit:fill;" style="" src="../../{{ product.image_url }}" alt="">
                         </div>
 
-                        <div class="swiper-slide">
-                            <img src="/static/assets/img/portfolio/portfolio-details-2.jpg" alt="">
-                        </div>
+                        <!--                        <div class="swiper-slide">-->
+                        <!--                            <img src="/static/assets/img/portfolio/portfolio-details-2.jpg" alt="">-->
+                        <!--                        </div>-->
 
-                        <div class="swiper-slide">
-                            <img src="/static/assets/img/portfolio/portfolio-details-3.jpg" alt="">
-                        </div>
+                        <!--                        <div class="swiper-slide">-->
+                        <!--                            <img src="/static/assets/img/portfolio/portfolio-details-3.jpg" alt="">-->
+                        <!--                        </div>-->
 
                     </div>
                     <div class="swiper-pagination"></div>
@@ -52,9 +52,10 @@
                 <div class="portfolio-info">
                     <h3>Información</h3>
                     <ul>
-                        <li><strong>Categoria</strong>: {{ product.category_id }}</li>
+                        <li><strong>Categoria</strong>: {{ product.c_name }}</li>
                         <li><strong>Cantidad disponible</strong>: {{ product.available_quant }}</li>
                         <li><strong>Fecha de vencimiento</strong>: {{ product.expiring_date }}</li>
+                        <li><strong>Dirección</strong>: {{ product.address }}</li>
                         <li><strong>Precio</strong> $ {{ product.price }}</li>
                     </ul>
                     <div class="d-flex justify-content-between">
@@ -63,8 +64,9 @@
                     </div>
                 </div>
                 <div class="portfolio-description">
-                    <h2>Descripción</h2>
+                    <h2>¿Que obtendrás?</h2>
                     <p>
+                        Salva comida en {{ product.company_name }} y podrás disfrutar de:</br>
                         {{ product.description }}
                     </p>
                 </div>

@@ -53,3 +53,14 @@ def delete_order(id_order):
 
     bd = BaseDeDatos()
     bd.ejecutar_sql(delete_order_sql)
+
+
+
+# COUNT
+def order_count():
+    order_count_sql = f"""
+        SELECT count(*) FROM orders WHERE status=2
+    """
+
+    bd = BaseDeDatos()
+    return [{"order_qty": row[0]} for row in bd.ejecutar_sql(order_count_sql)]

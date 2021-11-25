@@ -9,37 +9,118 @@
 
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Productos</h1>
+        <h1>Productos {{ subtitle }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Inicio</a></li>
                 <li class="breadcrumb-item">Productos</li>
-                <li class="breadcrumb-item active">Todos los Productos</li>
+                <li class="breadcrumb-item active">Productos {{ subtitle }}</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
-        <div class="row align-items-top">
-{% for product in products %}
-            <div class="col-lg-3">
+        <div class="row">
+            <div class="col-lg-12">
 
-                <!-- Card with an image on top -->
                 <div class="card">
-                    <img src="{{ product.image_url }}" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">{{ product.title }}</h5>
-                        <p class="card-text">{{ product.description }}</p>
-                        <a href="/admin/products/edit/{{ product.slug }}" class="btn btn-primary">Editar</a>
-                        <a href="" class="btn btn-danger">Eliminar</a>
+                        <h5 class="card-title">Productos {{ subtitle }}</h5>
+                        <div id="alertList" style="display:none;"
+                             class="alert alert-success alert-dismissible fade show" role="alert">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                        </div>
+                        {% if subtitle == 'Activos' %}
+                        <p>Aquí podrás encontrar todos los productos que están activos y a la venta al público.</p>
+                        {% else %}
+                        <p>Aquí podrás encontrar todos los productos que ya han caducado y no son visibles al
+                            público.</p>
+                        {% endif %}
+                        <!-- Table with stripped rows -->
+                        <table class="table datatable">
+                            <thead>
+                            <tr>
+                                <th scope="col">Imagen</th>
+                                <th scope="col">Título</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Vencimiento</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Disp</th>
+                                <th scope="col">Horario</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if products %}
+                            {% for product in products %}
+                            <tr>
+                                <td class=""><a href="{{ url_for('product_slug', slug=product.slug) }}">
+                                    <img class="rounded img-fluid" style="width: 100px; height: auto; "
+                                         src="../../{{ product.image_url }}">
+                                </a>
+                                </td>
+                                <td>{{ product.title }}</td>
+                                <td>
+                                    Salva comida en <strong>{{session['company_name']}}</strong>
+                                    y podrás disfrutar de: {{ product.description }}
+                                </td>
+                                <td>{{ product.expiring_date }}</td>
+                                <td>${{ product.price }}</td>
+                                <td>{{ product.available_quant }}</td>
+                                <td>{{ product.pickup_time }}</td>
+                                <td class="icon">
+                                    <a href="/admin/products/edit/{{ product.slug }}"
+                                       class="text-primary"><i class="bi bi-pencil-square"></i></a>
+                                </td>
+                                <td>
+                                    <a data-bs-toggle="modal" data-bs-target="#basicModal{{product.id}}"
+                                       href="#" class="text-danger"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+
+                            <!-- Basic Modal -->
+                            <div class="modal fade" id="basicModal{{product.id}}" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Eliminar {{ product.title }}?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Una vez eliminado, no se podrá recuperar este producto.
+                                            Presione en Eliminar sí y sólo sí está seguro de que desea elminar
+                                            definitivamente el artículo en cuestión.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="{{ url_for('delete_product') }}" method="POST">
+                                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                                <input type="hidden" name="image_url" value="{{ product.image_url }}">
+                                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                            <button type="button" data-bs-dismiss="modal" class="btn btn-primary">
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- End Basic Modal-->
+                            {% endfor %}
+                            {% endif %}
+                            </tbody>
+                        </table>
+
+                        <!-- End Table with stripped rows -->
+
+
                     </div>
-                </div><!-- End Card with an image on top -->
+                </div>
 
-
-            </div><!-- End Special title treatmen -->
-{% endfor %}
-        </div>
-
+            </div>
         </div>
     </section>
 </main><!-- End #main -->

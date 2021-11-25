@@ -23,3 +23,8 @@ def list_user_orders(id_user):
 # DELETE
 def delete_order(id_order):
     order_model.delete_order(id_order)
+
+
+# COUNT
+def order_count():
+    return order_model.order_count()

@@ -12,7 +12,7 @@
         <h1>Crear nuevo producto</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Inicio</a></li>
                 <li class="breadcrumb-item">Ventas</li>
                 <li class="breadcrumb-item active">Nuevo producto</li>
             </ol>
@@ -29,7 +29,8 @@
                         <h5 class="card-title">Detalles</h5>
 
                         <!-- Multi Columns Form -->
-                        <form class="row g-3" enctype="multipart/form-data" method="post" action="">
+                        <form id="createProductForm" class="row g-3" enctype="multipart/form-data" method="post"
+                              action="">
                             <input type="hidden" id="user_id" name="user_id" value="{{ session['id'] }}">
                             <input type="hidden" id="status" name="status" value="1">
 
@@ -52,15 +53,16 @@
                                 <label for="category_id" class="form-label">Categoría</label>
                                 <select id="category_id" name="category_id" class="form-select" required>
                                     <option selected>Elegir...</option>
-                                    <option value="1">1</option>
+                                    {% for category in categories %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
-                            <!-- TinyMCE Editor -->
                             <div class="col-md-12">
-                                <label for="description" class="form-label">Descripción</label>
-                                <textarea id="description" name="description" class="form-control" required>
-
-                                </textarea><!-- End TinyMCE Editor -->
+                                <label for="description" class="form-label">Salva comida en
+                                    <strong>{{session['company_name']}}</strong> y podrás disfrutar de:</label>
+                                <textarea id="description" name="description" class="form-control" required
+                                          maxlength="70"></textarea>
                             </div>
                             <div class="col-md-2">
                                 <label for="price" class="form-label">Precio $UYU</label>
@@ -74,7 +76,7 @@
                             <div class="col-md-4">
                                 <label for="pickup_time" class="form-label">Rango horario de recolección</label>
                                 <select id="pickup_time" name="pickup_time" class="form-select" required>
-                                    <option selected>Elegir...</option>
+                                    <option value="0" selected>Elegir...</option>
                                     <option value="08:00 - 12:00">08:00 - 12:00</option>
                                     <option value="12:00 - 16:00">12:00 - 16:00</option>
                                     <option value="16:00 - 21:00">16:00 - 21:00</option>
@@ -82,9 +84,16 @@
                             </div>
                             <div class="col-md-2">
                                 <label for="image_url" class="form-label">Imagen/es</label>
-                                 <input type="text" class="form-control" id="image_url" name="image_url"
-                                       required>
+                                <input type="file" class="form-control" id="image_url" name="image_url"
+                                       required accept="image/jpeg, image/jpg, image/png">
                             </div>
+
+                            <div id="alertEdit" style="display:none;"
+                                 class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+
                             <div class="col-12">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="gridCheck" required>
@@ -127,5 +136,6 @@
         input.value = slug;
 
 	}
+
 </script>
 {% endblock %}

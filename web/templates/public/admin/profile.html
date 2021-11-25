@@ -25,9 +25,13 @@
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-                        <img src="{{ session['profile_photo_url'] }}" alt="Profile" class="rounded-circle">
+                        {% if not session['profile_photo_url'] %}
+                            <img src="../../../static/storage/users/default_profile.png" alt="Profile" class="rounded-circle">
+                        {% else %}
+                            <img src="{{ session['profile_photo_url'] }}" alt="Profile" class="rounded-circle">
+                        {% endif %}
                         <h2>{{ session['name'] }} {{ session['lastname'] }}</h2>
-                        <h3>Web Designer</h3>
+                        <h3>{{ session['role'] }}</h3>
                         <div class="social-links mt-2">
                             <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
                             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -71,11 +75,7 @@
 
                             <!-- GENERAL -->
                             <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                                <h5 class="card-title">Descripción</h5>
-                                <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores
-                                    cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure
-                                    rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at
-                                    unde.</p>
+
 
                                 <h5 class="card-title">Detalles de Perfil</h5>
 
@@ -86,22 +86,17 @@
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Compañía</div>
-                                    <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
+                                    <div class="col-lg-9 col-md-8">{{ session['company_name'] }}</div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Pais</div>
-                                    <div class="col-lg-9 col-md-8">Aqui iria el país</div>
+                                    <div class="col-lg-9 col-md-8">{{ session['country'] }}</div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Dirección</div>
                                     <div class="col-lg-9 col-md-8">{{ session['address'] }}</div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Teléfono/móvil</div>
-                                    <div class="col-lg-9 col-md-8">59894902543</div>
                                 </div>
 
                                 <div class="row">
@@ -131,11 +126,16 @@
                                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de
                                             Perfil</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <img src="{{ session['profile_photo_url'] }}" id="profileImage"
-                                                 alt="Profile">
+                                            {% if not session['profile_photo_url'] %}
+                                                <img src="../../../static/storage/users/default_profile.png" id="profileImage"
+                                                     alt="Profile">
+                                            {% else %}
+                                                <img src="{{ session['profile_photo_url'] }}" id="profileImage"
+                                                     alt="Profile">
+                                            {% endif %}
                                             <div class="pt-2">
-                                                <a href="#" class="btn btn-primary btn-sm"
-                                                   title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                                                <submit class="btn btn-primary btn-sm"
+                                                   title="Sube una imagen de Perfil"><i class="bi bi-upload"></i></submit>
                                                 <a href="#" class="btn btn-danger btn-sm"
                                                    title="Remove my profile image"><i class="bi bi-trash"></i></a>
                                             </div>
@@ -159,19 +159,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="row mb-3">
-                                        <label for="about" class="col-md-4 col-lg-3 col-form-label">Descripción</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <textarea name="about" class="form-control" id="about"
-                                                      style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                                        </div>
-                                    </div>
 
                                     <div class="row mb-3">
                                         <label for="company" class="col-md-4 col-lg-3 col-form-label">Compañía</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="company" type="text" class="form-control" id="company"
-                                                   value="Lueilwitz, Wisoky and Leuschke">
+                                                   value="{{ session['company_name'] }}">
                                         </div>
                                     </div>
 
@@ -179,7 +172,7 @@
                                         <label for="Country" class="col-md-4 col-lg-3 col-form-label">País</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="country" type="text" class="form-control" id="Country"
-                                                   value="Uruguay">
+                                                   value="{{ session['country'] }}">
                                         </div>
                                     </div>
 
@@ -188,15 +181,6 @@
                                         <div class="col-md-8 col-lg-9">
                                             <input name="address" type="text" class="form-control" id="Address"
                                                    value="{{ session['address'] }}">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Phone"
-                                               class="col-md-4 col-lg-3 col-form-label">Teléfono/móvil</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone"
-                                                   value="(598) 486-3538 x29071">
                                         </div>
                                     </div>
 
@@ -219,14 +203,10 @@
                                                 {% if session['role_id'] == 1 %}
                                                 <script>
                                                         document.getElementById('1').selected = true
-
-
                                                 </script>
                                                 {% else %}
                                                 <script>
                                                         document.getElementById('2').selected = true
-
-
                                                 </script>
                                                 {% endif %}
 

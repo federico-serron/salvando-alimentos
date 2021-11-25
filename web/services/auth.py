@@ -12,16 +12,23 @@ def user_login(email, password):
         return response.json()
 
 
-def create_user(name, lastname, password, email, role, address):
+def create_user(name, lastname, password, email, role, address, country,  profile_photo_url, company_name):
     body = {"name": name,
             "lastname": lastname,
             "password": password,
             "email": email,
             "role": role,
-            "address": address}
+            "address": address,
+            "country": country,
+            "profile_photo_url": profile_photo_url,
+            "company_name": company_name
+            }
     response = requests.post(f'{api_rest.API_URL}/signup', json=body)
     # Al igual que en el caso de la validacion, simplificamos el manejo de errores
-    return response.status_code == 200
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return False
 
 
 def list_users():
@@ -35,3 +42,21 @@ def delete_session(email):
     }
     response = requests.post(f'{api_rest.API_URL}/logout', json=body)
     return response.status_code == 200
+
+
+
+def client_count():
+    response = requests.get(f'{api_rest.API_URL}/users/clientcount')
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return False
+
+
+
+def seller_count():
+    response = requests.get(f'{api_rest.API_URL}/users/sellercount')
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return False

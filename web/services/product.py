@@ -10,10 +10,20 @@ def list_products():
         return False
 
 
+
 def index_list_products(quant):
     response = requests.get(f'{api_rest.API_URL}/products/{quant}')
     if response.status_code == 200:
         return response.json()
+    else:
+        return False
+
+
+
+def user_owns(user_id):
+    response = requests.get(f'{api_rest.API_URL}/products/owns/{user_id}')
+    if response.status_code == 200:
+        return True
     else:
         return False
 
@@ -45,9 +55,21 @@ def list_user_products(id):
         return False
 
 
+def list_user_expired_products(id):
+    body = {"user_id": id}
+    response = requests.post(f'{api_rest.API_URL}/products/user/expired', json=body)
+
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return False
+
+
+
 def create_product(title, description, price, expiring_date, category_id, image_url, available_quant, pickup_time, slug,
                    status, user_id):
-    body = {"title": title,
+    body = {
+            "title": title,
             "description": description,
             "price": price,
             "expiring_date": expiring_date,
@@ -62,5 +84,43 @@ def create_product(title, description, price, expiring_date, category_id, image_
     response = requests.post(f'{api_rest.API_URL}/products', json=body)
     if response.status_code == 200:
         return True
+    else:
+        return False
+
+
+def edit_product(product_id, title, description, price, expiring_date, available_quant, slug, status, user_id):
+    body = {"product_id": product_id,
+            "title": title,
+            "description": description,
+            "price": price,
+            "expiring_date": expiring_date,
+            "available_quant": available_quant,
+            "status": status,
+            "user_id": user_id
+            }
+
+    response = requests.put(f'{api_rest.API_URL}/products/{slug}', json=body)
+
+    if response.status_code == 200:
+        return True
+    else:
+        return False
+
+
+
+def delete_product(id_product):
+    response = requests.delete(f'{api_rest.API_URL}/products/{id_product}')
+
+    if response.status_code == 200:
+        return True
+    else:
+        return False
+
+
+
+def product_count():
+    response = requests.get(f'{api_rest.API_URL}/products/count')
+    if response.status_code == 200:
+        return response.json()
     else:
         return False
