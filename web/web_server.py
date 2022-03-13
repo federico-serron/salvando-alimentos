@@ -9,8 +9,6 @@ from services import product
 from services import category
 from services import order
 
-
-
 UPLOAD_FOLDER_PRODUCTS = 'static/storage/products/'
 UPLOAD_FOLDER_USERS = 'static/storage/users/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -29,11 +27,12 @@ def index():
     client_qty = client_count()
     seller_qty = seller_count()
     if products_list:
-        return render_template('public/index.html', title='Inicio',session=session,
+        return render_template('public/index.html', title='Inicio', session=session,
                                products=products_list, products_qty=products_qty[0], order_qty=order_qty[0],
                                client_qty=client_qty[0], seller_qty=seller_qty[0])
     else:
-        return render_template('public/index.html', title='Inicio', session=session, products='')
+        return render_template('public/index.html', title='Inicio', session=session, products='',
+                               seller_qty=seller_qty[0], client_qty=client_qty[0],  order_qty=order_qty[0], products_qty=products_qty[0])
 
 
 ####################### LOGIN & SIGNUP #####################
@@ -77,8 +76,9 @@ def signup():
             address = request.form['address'] + ', ' + request.form['city'] + ', ' + request.form['zip']
 
             user_response = auth.create_user(request.form['name'], request.form['lastname'], request.form['password'],
-                                request.form['email'], request.form['role_id'], address, request.form['country'],
-                                img_location, request.form['company_name'])
+                                             request.form['email'], request.form['role_id'], address,
+                                             request.form['country'],
+                                             img_location, request.form['company_name'])
         if not user_response:
             error = 'El Email ya esta en uso. Pruebe con otro diferente.'
         else:
@@ -92,7 +92,6 @@ def signup():
             session['profile_photo_url'] = img_location
             session['company_name'] = user_response[0]['company_name']
             session['role'] = user_response[0]['role']
-
 
             return redirect(url_for('index'))
     return render_template('public/login/signup.html', error=error, title="Registrate")
@@ -132,7 +131,6 @@ def product_slug(slug):
     if request.method == 'GET':
         result = product.product_slug(slug)
         return render_template('public/product-info.html', title=result[0]['title'], product=result[0])
-
 
 
 ####################### ADMIN #####################
@@ -291,8 +289,6 @@ def list_categories():
         return "No hay categorias disponibles."
 
 
-
-
 # EXTRA FUNCTIONS
 # Checks if there are or are not products in the table 'products'
 def check_products():
@@ -322,7 +318,6 @@ def user_owns(user_id):
         return False
 
 
-
 # Brings the Products quantity to be shown at Index
 def product_count():
     product_count = product.product_count()
@@ -350,14 +345,14 @@ def client_count():
         return False
 
 
-
 # Brings the Users Seller quantity to be shown at Index
 def seller_count():
     seller_count = auth.seller_count()
-    if seller_count:
-        return seller_count
-    else:
-        return False
+    return seller_count
+    # if seller_count > 0:
+    #     return seller_count
+    # else:
+    #     return seller_count
 
 
 if __name__ == '__main__':

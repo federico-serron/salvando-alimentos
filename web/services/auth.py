@@ -59,4 +59,4 @@ def seller_count():
     if response.status_code == 200:
         return response.json()
     else:
-        return False
+        return 0
