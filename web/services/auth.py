@@ -1,6 +1,6 @@
 import requests
 
-from . import api_rest
+from web.services import api_rest
 
 
 def user_login(email, password):
