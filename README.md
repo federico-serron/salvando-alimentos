@@ -46,14 +46,11 @@ You can also try the live version at: [https://salvandoalimentos.fserron.com](ht
 ---
 
 ## 🛠️ Stack
-- Python + Flask (Backend & Frontend)
+- Python + Flask (Backend & Frontend - Jinja2 Templates)
 - JavaScript & JQuery (Frontend)
 - SQLite (Database)
 - MVC Architecture
 
----
-
-Feel free to contribute or open issues!
 
 ---
 

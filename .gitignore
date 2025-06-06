@@ -1,6 +1,5 @@
 salvando_alimentos.db
 /data/data_base.py
 venv/
-/docker-compose.yml
-/web/scatic/storage/users/*
-/web/scatic/storage/products/*
+/web/static/storage/users/*
+/web/static/storage/products/*
