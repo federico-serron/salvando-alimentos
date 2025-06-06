@@ -79,7 +79,12 @@
 </section><!-- End Portfolio Section -->
 
 <!-- ======= Counts Section ======= -->
-{% include '/includes/counts.html' %}
+{% set seller_qty = seller_qty if seller_qty is defined else {'seller_qty': 0} %}
+{% set client_qty = client_qty if client_qty is defined else {'client_qty': 0} %}
+{% set order_qty = order_qty if order_qty is defined else {'order_qty': 0} %}
+{% set products_qty = products_qty if products_qty is defined else {'product_count': 0} %}
+
+{% include 'includes/counts.html' %}
 <!-- End Counts Section -->
 
 <!-- ======= The Movement Section ======= -->

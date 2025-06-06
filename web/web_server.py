@@ -3,11 +3,11 @@ import os.path
 from os import remove
 from flask import Flask, request, jsonify, render_template, url_for, session, flash
 from werkzeug.utils import redirect, secure_filename
-from strgen import StringGenerator
-from services import auth
-from services import product
-from services import category
-from services import order
+import strgen as StringGenerator
+from web.services import auth
+from web.services import product
+from web.services import category
+from web.services import order
 
 UPLOAD_FOLDER_PRODUCTS = 'static/storage/products/'
 UPLOAD_FOLDER_USERS = 'static/storage/users/'
@@ -24,15 +24,14 @@ def index():
     products_list = index_list_products(6)
     products_qty = product_count()
     order_qty = order_count()
-    client_qty = client_count()
-    seller_qty = seller_count()
+    client_qty = client_count()    
+    seller_qty = seller_count() or {'seller_qty': 0}
     if products_list:
-        return render_template('public/index.html', title='Inicio', session=session,
+        return render_template('public/index.html', title='Inicio',session=session,
                                products=products_list, products_qty=products_qty[0], order_qty=order_qty[0],
-                               client_qty=client_qty[0], seller_qty=seller_qty[0])
+                               client_qty=client_qty[0], seller_qty=seller_qty)
     else:
-        return render_template('public/index.html', title='Inicio', session=session, products='',
-                               seller_qty=seller_qty[0], client_qty=client_qty[0],  order_qty=order_qty[0], products_qty=products_qty[0])
+        return render_template('public/index.html', title='Inicio', session=session, products='')
 
 
 ####################### LOGIN & SIGNUP #####################
@@ -70,15 +69,15 @@ def signup():
         if 'profile_photo_url' in request.files:
             file = request.files['profile_photo_url']
             filename = secure_filename(file.filename)
+            os.makedirs(app.config['UPLOAD_FOLDER_USERS'], exist_ok=True)
             file.save(os.path.join(app.config['UPLOAD_FOLDER_USERS'], filename))
-            img_location = '../../' + UPLOAD_FOLDER_USERS + filename
+            img_location = app.config['UPLOAD_FOLDER_USERS'] + filename
 
             address = request.form['address'] + ', ' + request.form['city'] + ', ' + request.form['zip']
 
             user_response = auth.create_user(request.form['name'], request.form['lastname'], request.form['password'],
-                                             request.form['email'], request.form['role_id'], address,
-                                             request.form['country'],
-                                             img_location, request.form['company_name'])
+                                request.form['email'], request.form['role_id'], address, request.form['country'],
+                                img_location, request.form['company_name'])
         if not user_response:
             error = 'El Email ya esta en uso. Pruebe con otro diferente.'
         else:
@@ -92,6 +91,7 @@ def signup():
             session['profile_photo_url'] = img_location
             session['company_name'] = user_response[0]['company_name']
             session['role'] = user_response[0]['role']
+
 
             return redirect(url_for('index'))
     return render_template('public/login/signup.html', error=error, title="Registrate")
@@ -133,6 +133,7 @@ def product_slug(slug):
         return render_template('public/product-info.html', title=result[0]['title'], product=result[0])
 
 
+
 ####################### ADMIN #####################
 # DASHBOARD
 @app.route('/admin', methods=['GET'])
@@ -159,8 +160,9 @@ def profile():
                 file = request.files['profile_photo_url']
                 randomName = StringGenerator("[\l\d]{14}").render_list(1, unique=True)
                 filename = randomName[0]
+                os.makedirs(app.config['UPLOAD_FOLDER_USERS'], exist_ok=True)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER_USERS'], filename))
-                img_location = '../../' + UPLOAD_FOLDER_USERS + filename
+                img_location = app.config['UPLOAD_FOLDER_USERS'] + filename
 
                 if not auth.edit_user(request.form['name'], request.form['lastname'],
                                       request.form['email'], request.form['role_id'], request.form['address'],
@@ -289,6 +291,8 @@ def list_categories():
         return "No hay categorias disponibles."
 
 
+
+
 # EXTRA FUNCTIONS
 # Checks if there are or are not products in the table 'products'
 def check_products():
@@ -318,6 +322,7 @@ def user_owns(user_id):
         return False
 
 
+
 # Brings the Products quantity to be shown at Index
 def product_count():
     product_count = product.product_count()
@@ -345,14 +350,14 @@ def client_count():
         return False
 
 
+
 # Brings the Users Seller quantity to be shown at Index
 def seller_count():
     seller_count = auth.seller_count()
-    return seller_count
-    # if seller_count > 0:
-    #     return seller_count
-    # else:
-    #     return seller_count
+    if seller_count:
+        return seller_count[0]
+    else:
+        return {'seller_qty': 0}
 
 
 if __name__ == '__main__':
