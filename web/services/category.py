@@ -1,5 +1,5 @@
 import requests
-from web.services import api_rest
+from . import api_rest
 
 
 def list_categories():

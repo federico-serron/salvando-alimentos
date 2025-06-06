@@ -3,11 +3,12 @@ import os.path
 from os import remove
 from flask import Flask, request, jsonify, render_template, url_for, session, flash
 from werkzeug.utils import redirect, secure_filename
-from strgen import StringGenerator
+import strgen as StringGenerator
 from services import auth
 from services import product
 from services import category
 from services import order
+
 
 
 
@@ -26,12 +27,12 @@ def index():
     products_list = index_list_products(6)
     products_qty = product_count()
     order_qty = order_count()
-    client_qty = client_count()
-    seller_qty = seller_count()
+    client_qty = client_count()    
+    seller_qty = seller_count() or {'seller_qty': 0}
     if products_list:
         return render_template('public/index.html', title='Inicio',session=session,
                                products=products_list, products_qty=products_qty[0], order_qty=order_qty[0],
-                               client_qty=client_qty[0], seller_qty=seller_qty[0])
+                               client_qty=client_qty[0], seller_qty=seller_qty)
     else:
         return render_template('public/index.html', title='Inicio', session=session, products='')
 
@@ -71,8 +72,9 @@ def signup():
         if 'profile_photo_url' in request.files:
             file = request.files['profile_photo_url']
             filename = secure_filename(file.filename)
+            os.makedirs(app.config['UPLOAD_FOLDER_USERS'], exist_ok=True)
             file.save(os.path.join(app.config['UPLOAD_FOLDER_USERS'], filename))
-            img_location = '../../' + UPLOAD_FOLDER_USERS + filename
+            img_location = app.config['UPLOAD_FOLDER_USERS'] + filename
 
             address = request.form['address'] + ', ' + request.form['city'] + ', ' + request.form['zip']
 
@@ -161,8 +163,9 @@ def profile():
                 file = request.files['profile_photo_url']
                 randomName = StringGenerator("[\l\d]{14}").render_list(1, unique=True)
                 filename = randomName[0]
+                os.makedirs(app.config['UPLOAD_FOLDER_USERS'], exist_ok=True)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER_USERS'], filename))
-                img_location = '../../' + UPLOAD_FOLDER_USERS + filename
+                img_location = app.config['UPLOAD_FOLDER_USERS'] + filename
 
                 if not auth.edit_user(request.form['name'], request.form['lastname'],
                                       request.form['email'], request.form['role_id'], request.form['address'],
@@ -355,9 +358,9 @@ def client_count():
 def seller_count():
     seller_count = auth.seller_count()
     if seller_count:
-        return seller_count
+        return seller_count[0]
     else:
-        return False
+        return {'seller_qty': 0}
 
 
 if __name__ == '__main__':

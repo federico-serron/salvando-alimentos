@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    container_name: salvando-alimentos-api
+    command: gunicorn -b 0.0.0.0:5001 Server:app
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_ENV=production
+    volumes:
+      - .:/app
+
+  web:
+    build: .
+    container_name: salvando-alimentos-web
+    command: gunicorn -b 0.0.0.0:5002 web.web_server:app
+    ports:
+      - "5002:5002"
+    environment:
+      - FLASK_ENV=production
+    depends_on:
+      - api
+    volumes:
+      - .:/app

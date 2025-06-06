@@ -1,6 +1,6 @@
 import requests
 
-from web.services import api_rest
+from . import api_rest
 
 
 def user_login(email, password):
@@ -55,8 +55,15 @@ def client_count():
 
 
 def seller_count():
-    response = requests.get(f'{api_rest.API_URL}/users/sellercount')
-    if response.status_code == 200:
-        return response.json()
-    else:
+    try:
+        response = requests.get(f'{api_rest.API_URL}/users/sellercount')
+        response.raise_for_status()
+        data = response.json()
+        print(f"API Response: {data}")
+        return data
+    except requests.exceptions.RequestException as e:
+        print(f"Error en seller_count: {e}")
+        return False
+    except ValueError as e:
+        print(f"Error decodificando JSON: {e}")
         return False
