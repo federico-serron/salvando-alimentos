@@ -38,7 +38,10 @@ $(document).ready(function() {
 # LOGIN Form validation
 --------------------------------------------------------------*/
 document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById("loginForm").addEventListener('submit', loginValidation);
+  var loginForm = document.getElementById("loginForm");
+  if (loginForm) {
+    loginForm.addEventListener('submit', loginValidation);
+  }
 });
 
 function loginValidation(event){
@@ -63,7 +66,10 @@ function loginValidation(event){
 # REGISTER Form validation
 --------------------------------------------------------------*/
 document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById("registerForm").addEventListener('submit', RegisValidation);
+  var registerForm = document.getElementById("registerForm");
+  if (registerForm) {
+    registerForm.addEventListener('submit', RegisValidation);
+  }
 });
 
 function RegisValidation(event){
