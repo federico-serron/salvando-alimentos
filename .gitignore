@@ -1,5 +1,9 @@
 salvando_alimentos.db
+<<<<<<< HEAD
 /data/data_base.py
 venv/
 /web/static/storage/users/*
 /web/static/storage/products/*
+=======
+/data/data_base.py
+>>>>>>> 30223b473ac5504d3bcd46b8e46b4714468dd0d5

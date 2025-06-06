@@ -55,6 +55,7 @@ def client_count():
 
 
 def seller_count():
+<<<<<<< HEAD
     try:
         response = requests.get(f'{api_rest.API_URL}/users/sellercount')
         response.raise_for_status()
@@ -67,3 +68,10 @@ def seller_count():
     except ValueError as e:
         print(f"Error decodificando JSON: {e}")
         return False
+=======
+    response = requests.get(f'{api_rest.API_URL}/users/sellercount')
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return 0
+>>>>>>> 30223b473ac5504d3bcd46b8e46b4714468dd0d5

@@ -2,7 +2,7 @@ import sqlite3
 
 
 class BaseDeDatos:
-    url_base_de_datos = 'salvando_alimentos.db'
+    url_base_de_datos = 'postgres://mfqmsfrbpxqmfx:25f62f09b8a73ed69b0a7467522e4d62d423a5fe2dfa5bd8484d326e7e92e160@ec2-44-193-188-118.compute-1.amazonaws.com:5432/dhoijfehi423o'
 
     def _crear_conexion(self):
         try:
