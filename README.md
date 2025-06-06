@@ -21,7 +21,7 @@ Salvando Alimentos is a full-stack web app built with Python (Flask) and a touch
    ```
 4. **Start the frontend (Web App):**
    ```bash
-   python -m web:web_server
+   python -m web.web_server
    ```
 5. **Ready!** Visit [http://localhost:5002](http://localhost:5002) in your browser.
 
