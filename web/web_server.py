@@ -3,15 +3,15 @@ import os.path
 from os import remove
 from flask import Flask, request, jsonify, render_template, url_for, session, flash
 from werkzeug.utils import redirect, secure_filename
-import strgen as StringGenerator
-from services import auth
-from services import product
-from services import category
-from services import order
+from strgen import StringGenerator
+from web.services import auth
+from web.services import product
+from web.services import category
+from web.services import order
 
 
 UPLOAD_FOLDER_PRODUCTS = 'static/storage/products/'
-UPLOAD_FOLDER_USERS = 'static/storage/users/'
+UPLOAD_FOLDER_USERS = 'web/static/storage/users/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
@@ -70,6 +70,8 @@ def signup():
         if 'profile_photo_url' in request.files:
             file = request.files['profile_photo_url']
             filename = secure_filename(file.filename)
+            _, ext = os.path.splitext(filename)
+            filename = filename + ext
             os.makedirs(app.config['UPLOAD_FOLDER_USERS'], exist_ok=True)
             file.save(os.path.join(app.config['UPLOAD_FOLDER_USERS'], filename))
             img_location = app.config['UPLOAD_FOLDER_USERS'] + filename
@@ -230,10 +232,14 @@ def create_product():
                 return redirect(request.url)
             file = request.files['image_url']
             if file:
+                original_filename = secure_filename(file.filename)
+                _, ext = os.path.splitext(original_filename)
                 randomName = StringGenerator("[\l\d]{14}").render_list(1, unique=True)
                 filename = randomName[0]
+                filename = filename + ext
+                os.makedirs(app.config['UPLOAD_FOLDER_PRODUCTS'], exist_ok=True)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER_PRODUCTS'], filename))
-                img_location = UPLOAD_FOLDER_PRODUCTS + filename
+                img_location = app.config['UPLOAD_FOLDER_PRODUCTS'] + filename
 
             if not product.create_product(request.form['title'], request.form['description'], request.form['price'],
                                           request.form['expiring_date'], request.form['category_id'],

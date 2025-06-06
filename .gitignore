@@ -1,4 +1,30 @@
+# Base de datos y archivos sensibles
 salvando_alimentos.db
+
+# Entorno virtual de Python
 venv/
+
+# Archivos de caché de Python
+__pycache__/
+*.pyc
+
+# Archivos de configuración de entorno/locales
+.env
+*.env
+
+# Archivos de configuración de IDEs (VSCode, PyCharm, etc)
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos y carpetas de almacenamiento de imágenes subidas
 /web/static/storage/users/*
 /web/static/storage/products/*
+
+# Archivos de log
+*.log
+
+# Archivos de sistema (Windows/macOS)
+.DS_Store
+Thumbs.db
