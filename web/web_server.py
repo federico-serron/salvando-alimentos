@@ -9,7 +9,6 @@ from web.services import product
 from web.services import category
 from web.services import order
 
-
 UPLOAD_FOLDER_PRODUCTS = 'static/storage/products/'
 UPLOAD_FOLDER_USERS = 'web/static/storage/users/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
