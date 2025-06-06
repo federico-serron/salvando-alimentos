@@ -4,11 +4,10 @@ from os import remove
 from flask import Flask, request, jsonify, render_template, url_for, session, flash
 from werkzeug.utils import redirect, secure_filename
 import strgen as StringGenerator
-from services import auth
-from services import product
-from services import category
-from services import order
-
+from web.services import auth
+from web.services import product
+from web.services import category
+from web.services import order
 
 
 
